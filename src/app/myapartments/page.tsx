@@ -2,14 +2,19 @@ import React from "react";
 import Image from "next/image";
 import { SearchByName } from "@/components/common/Forms/SearchByName/SearchByName";
 import { Apartment } from "@/components/common/Card/Apartment";
+import { createClient } from "@/utils/supabase/server";
 
-export default function MyApartments() {
+export default async function MyApartments() {
+  const supabase = createClient();
+
+  const { data, error } = await supabase.auth.getUser();
   return (
     <main className="flex min-h-screen flex-col bg-slate-50 px-16 py-12">
       <div className={"relative flex w-full justify-between"}>
         <span className={"flex w-6/12 flex-col gap-4"}>
           <h4 className={"text-5xl"}>
             Rent out your apartments and gain benefits.
+            {data.user?.id}
           </h4>
           <span>
             Rent out your apartments and start earning extra income. Benefit
