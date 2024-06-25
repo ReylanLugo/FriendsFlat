@@ -25,6 +25,7 @@ model Apartaments {
   userId      String
   user        Users @relation(fields: [userId], references: [id])
   rooms       Rooms[]
+  favorites   Favorites[]
 }
 
 model Rooms {
@@ -43,6 +44,16 @@ model Users {
   id            String @id @default(cuid())
   image         String
   apartaments   Apartaments[]
+  favorites     Favorites[]
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
+}
+
+model Favorites {
+  id            String       @id @default(cuid())
+  userId        String
+  apartamentId  String
+  user          Users        @relation(fields: [userId], references: [id])
+  apartament    Apartaments  @relation(fields: [apartamentId], references: [id])
+  createdAt     DateTime     @default(now())
 }
