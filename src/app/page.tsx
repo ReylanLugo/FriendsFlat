@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { TypeWritting } from "@/components/features/home/TypeWritting";
-import { SearchByName } from "@/components/features/home/SearchByName/SearchByName";
+import { SearchByName } from "@/components/common/Forms/SearchByName/SearchByName";
 import { Filters } from "@/components/features/home/Filters";
 import { Apartment } from "@/components/common/Card/Apartment";
 
