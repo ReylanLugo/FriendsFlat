@@ -1,8 +1,13 @@
+"use client";
 import React from "react";
 import Image from "next/image";
 import { Card } from "@/components/common/Card";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { toggleApartmentDetails } from "@/store/slices/global";
+import { ApartmentDetails } from "@/components/common/Modal/ApartmentDetails";
 
 type props = {
+  id: number;
   image: string;
   name: string;
   location: string;
@@ -14,6 +19,7 @@ type props = {
 };
 
 export const Apartment: React.FC<props> = ({
+  id,
   image,
   name,
   location,
@@ -23,9 +29,13 @@ export const Apartment: React.FC<props> = ({
   price,
   favorited,
 }) => {
+  const modalToggleState = useAppSelector(
+    (state) => state.global.toggleApartmentDetails,
+  );
+  const dispatch = useAppDispatch();
   return (
     <>
-      <Card>
+      <Card onClick={() => dispatch(toggleApartmentDetails())}>
         <div className={"relative flex h-[220px]"}>
           <Image src={image} alt={"apartment"} fill />
           <div
@@ -81,6 +91,7 @@ export const Apartment: React.FC<props> = ({
           </div>
         </div>
       </Card>
+      {modalToggleState && <ApartmentDetails />}
     </>
   );
 };

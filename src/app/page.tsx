@@ -2,6 +2,7 @@ import Image from "next/image";
 import { TypeWritting } from "@/components/features/home/TypeWritting";
 import { SearchByName } from "@/components/features/home/SearchByName/SearchByName";
 import { Filters } from "@/components/features/home/Filters";
+import { Apartment } from "@/components/common/Card/Apartment";
 
 export default function Home() {
   return (
@@ -22,7 +23,21 @@ export default function Home() {
       <div className={"mt-4 flex gap-6"}>
         <Filters />
       </div>
-      <div className={"mt-8 grid h-full w-full grid-cols-3 gap-8"}></div>
+      <div className={"mt-8 grid h-full w-full grid-cols-3 gap-8"}>
+        <Apartment
+          id={1}
+          image={"/apartment.png"}
+          name={"Orange Park PRoxi"}
+          location={"New York 834et Apt 2"}
+          description={
+            "Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit."
+          }
+          rooms={4}
+          meters={231}
+          price={1311}
+          favorited={false}
+        />
+      </div>
     </main>
   );
 }
