@@ -14,46 +14,46 @@ datasource db {
 }
 
 model Apartaments {
-  id          String @id @default(cuid())
+  id          String      @id @default(cuid())
   name        String
   location    String
   description String
   price       Float
   images      String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
   userId      String
-  user        Users @relation(fields: [userId], references: [id])
+  user        Users       @relation(fields: [userId], references: [id])
   rooms       Rooms[]
   favorites   Favorites[]
 }
 
 model Rooms {
-  id            String @id @default(cuid())
-  apartamentId  String
-  name          String
-  size          Float
-  equipment     String
-  image         String
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-  apartament    Apartaments @relation(fields: [apartamentId], references: [id])
+  id           String      @id @default(cuid())
+  apartamentId String
+  name         String
+  size         Float
+  equipment    String
+  image        String
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  apartament   Apartaments @relation(fields: [apartamentId], references: [id], onDelete: Cascade)
 }
 
 model Users {
-  id            String @id @default(cuid())
-  image         String
-  apartaments   Apartaments[]
-  favorites     Favorites[]
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  id          String        @id @default(cuid())
+  image       String
+  apartaments Apartaments[]
+  favorites   Favorites[]
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
 }
 
 model Favorites {
-  id            String       @id @default(cuid())
-  userId        String
-  apartamentId  String
-  user          Users        @relation(fields: [userId], references: [id])
-  apartament    Apartaments  @relation(fields: [apartamentId], references: [id])
-  createdAt     DateTime     @default(now())
+  id           String      @id @default(cuid())
+  userId       String
+  apartamentId String
+  user         Users       @relation(fields: [userId], references: [id])
+  apartament   Apartaments @relation(fields: [apartamentId], references: [id])
+  createdAt    DateTime    @default(now())
 }

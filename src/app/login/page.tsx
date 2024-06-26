@@ -1,6 +1,13 @@
 import { login, signup } from "./actions";
+import { GetUserSession } from "@/actions";
+import { redirect } from "next/navigation";
 
-export default function LoginPage() {
+export default async function LoginPage() {
+  const session = await GetUserSession();
+  if (session) {
+    return redirect("/");
+  }
+
   return (
     <main
       className={
