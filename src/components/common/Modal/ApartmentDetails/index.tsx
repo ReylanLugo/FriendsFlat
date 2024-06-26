@@ -24,7 +24,11 @@ export const ApartmentDetails: React.FC<Props> = ({ apartmentId }) => {
   return (
     <>
       <Modal>
-        <div className={"w-[40em] rounded-lg bg-white p-4 shadow"}>
+        <div
+          className={
+            "xs:w-full xs:mx-4 xs:grid rounded-lg bg-white p-4 shadow md:mx-12 md:grid xl:block xl:w-[40em]"
+          }
+        >
           <div className={"flex w-full justify-between"}>
             <span className={"text-2xl font-extrabold"}>
               {apartmentState?.name}

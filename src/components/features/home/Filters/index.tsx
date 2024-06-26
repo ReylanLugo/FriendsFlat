@@ -12,10 +12,10 @@ export const Filters: React.FC = () => {
   const dispatch = useAppDispatch();
   return (
     <>
-      <div className={"flex flex-col gap-2"}>
+      <div className={"xs:w-full flex flex-col gap-2 md:w-auto"}>
         <PriceRange />
       </div>
-      <div className={"flex flex-col gap-2"}>
+      <div className={"xs:w-full flex flex-col gap-2 md:w-auto"}>
         <MetersRange />
       </div>
       <button

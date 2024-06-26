@@ -10,7 +10,11 @@ export const PriceRange: React.FC = () => {
     <>
       <span className={"text-sm"}>Price range</span>
       <div className={"flex items-center gap-2"}>
-        <div className={"flex gap-2 rounded-full bg-slate-100 px-4 py-2"}>
+        <div
+          className={
+            "xs:w-6/12 flex gap-2 rounded-full bg-slate-100 px-4 py-2 md:w-auto lg:w-48 xl:w-60"
+          }
+        >
           <span>$</span>
           <input
             value={globalState.minPrice}
@@ -22,7 +26,11 @@ export const PriceRange: React.FC = () => {
           />
         </div>
 
-        <div className={"flex gap-2 rounded-full bg-slate-100 px-4 py-2"}>
+        <div
+          className={
+            "xs:w-6/12 flex gap-2 rounded-full bg-slate-100 px-4 py-2 md:w-auto lg:w-48 xl:w-60"
+          }
+        >
           <span>$</span>
           <input
             value={globalState.maxPrice}

@@ -6,7 +6,7 @@ import { ApartmentList } from "@/components/features/home/ApartmentList";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col bg-slate-50 px-16 py-12">
+    <main className="xs:px-5 xs:py-6 flex min-h-screen flex-col bg-slate-50 py-16 md:px-8">
       <div className={"relative flex w-full justify-between"}>
         <TypeWritting />
         <Image
@@ -14,13 +14,19 @@ export default function Home() {
           alt={"apartment"}
           width={400}
           height={305}
-          className={"absolute -top-12 right-0"}
+          className={
+            "absolute right-0 sm:relative sm:-top-6 sm:block lg:absolute lg:-top-12"
+          }
         />
       </div>
-      <div className={"mt-8 flex items-center gap-6"}>
+      <div
+        className={
+          "xs:mt-32 xs:gap-2 flex items-center md:mt-3 md:gap-6 lg:mt-14"
+        }
+      >
         <SearchByName />
       </div>
-      <div className={"mt-4 flex gap-6"}>
+      <div className={"mt-4 flex flex-wrap gap-6 lg:mt-12"}>
         <Filters />
       </div>
       <ApartmentList />

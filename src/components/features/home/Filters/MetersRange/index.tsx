@@ -10,7 +10,11 @@ export const MetersRange: React.FC = () => {
     <>
       <span className={"text-sm"}>Meters range</span>
       <div className={"flex items-center gap-2"}>
-        <div className={"flex gap-2 rounded-full bg-slate-100 px-4 py-2"}>
+        <div
+          className={
+            "flex w-6/12 gap-2 rounded-full bg-slate-100 px-4 py-2 xl:w-60"
+          }
+        >
           <span>Min</span>
           <input
             value={globalState.minSize}
@@ -22,7 +26,11 @@ export const MetersRange: React.FC = () => {
           />
         </div>
 
-        <div className={"flex gap-2 rounded-full bg-slate-100 px-4 py-2"}>
+        <div
+          className={
+            "flex w-6/12 gap-2 rounded-full bg-slate-100 px-4 py-2 xl:w-60"
+          }
+        >
           <span>Max</span>
           <input
             value={globalState.maxSize}

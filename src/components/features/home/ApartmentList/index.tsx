@@ -18,7 +18,11 @@ export const ApartmentList: React.FC = () => {
 
   return (
     <>
-      <div className={"mt-8 grid h-full w-full grid-cols-3 gap-8"}>
+      <div
+        className={
+          "xs:grid-cols-1 xs:px-5 mt-8 grid h-full w-full gap-8 md:grid-cols-2 md:px-0 lg:grid-cols-3"
+        }
+      >
         {apartments.length === 0 || apartments[0].id === "" ? (
           <span>No apartments available</span>
         ) : (

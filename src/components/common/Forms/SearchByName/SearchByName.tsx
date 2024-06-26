@@ -26,7 +26,7 @@ export const SearchByName: React.FC = () => {
 
       <button
         className={
-          "flex items-center gap-2 rounded-full bg-blue-400 px-4 py-2 text-white"
+          "xs:h-10 flex items-center gap-2 rounded-full bg-blue-400 px-4 py-2 text-white"
         }
       >
         <Image
@@ -36,7 +36,7 @@ export const SearchByName: React.FC = () => {
           height={18}
           className={"invert"}
         />
-        Search
+        <span className={"xs:hidden md:block"}>Search</span>
       </button>
     </>
   );

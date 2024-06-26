@@ -5,7 +5,11 @@ import Typewriter from "typewriter-effect";
 export const TypeWritting: React.FC = () => {
   return (
     <>
-      <h4 className={"text-5xl"}>
+      <h4
+        className={
+          "xs:bg-white/90 xs:text-3xl xs:px-3 xs:py-2 xs:mt-24 xs:ml-6 z-20 rounded-xl sm:bg-transparent sm:p-0 sm:text-5xl md:m-0 md:flex md:flex-col md:justify-center"
+        }
+      >
         Discover your next
         <Typewriter
           onInit={(typewriter) => {
