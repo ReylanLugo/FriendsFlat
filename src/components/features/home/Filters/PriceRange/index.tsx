@@ -22,7 +22,7 @@ export const PriceRange: React.FC = () => {
               dispatch(setMinPrice(parseInt(e.target.value)));
             }}
             type={"number"}
-            className={"w-auto bg-transparent"}
+            className={"w-[70%] bg-transparent md:w-auto"}
           />
         </div>
 
@@ -38,7 +38,7 @@ export const PriceRange: React.FC = () => {
               dispatch(setMaxPrice(parseInt(e.target.value)));
             }}
             type={"number"}
-            className={"w-auto bg-transparent"}
+            className={"w-[70%] bg-transparent md:w-auto"}
           />
         </div>
       </div>
