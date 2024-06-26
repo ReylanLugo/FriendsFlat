@@ -22,7 +22,7 @@ export const MetersRange: React.FC = () => {
               dispatch(setMinSize(parseInt(e.target.value)));
             }}
             type={"number"}
-            className={"w-24 bg-transparent"}
+            className={"w-auto bg-transparent"}
           />
         </div>
 
@@ -38,7 +38,7 @@ export const MetersRange: React.FC = () => {
               dispatch(setMaxSize(parseInt(e.target.value)));
             }}
             type={"number"}
-            className={"w-24 bg-transparent"}
+            className={"w-auto bg-transparent"}
           />
         </div>
       </div>

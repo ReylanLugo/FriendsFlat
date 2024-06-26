@@ -6,7 +6,7 @@ import { ApartmentList } from "@/components/features/home/ApartmentList";
 
 export default function Home() {
   return (
-    <main className="xs:px-5 xs:py-6 flex min-h-screen flex-col bg-slate-50 py-16 md:px-8">
+    <main className="flex min-h-screen flex-col bg-slate-50 py-16 xs:px-5 xs:py-6 md:px-8 lg:px-20">
       <div className={"relative flex w-full justify-between"}>
         <TypeWritting />
         <Image
@@ -21,7 +21,7 @@ export default function Home() {
       </div>
       <div
         className={
-          "xs:mt-32 xs:gap-2 flex items-center md:mt-3 md:gap-6 lg:mt-14"
+          "flex items-center xs:mt-32 xs:gap-2 md:mt-3 md:gap-6 lg:mt-14"
         }
       >
         <SearchByName />
