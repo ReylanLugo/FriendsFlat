@@ -1,5 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { GetAllApartment, GetAllMyApartment } from "@/actions";
+import {
+  GetAllApartment,
+  GetAllFavoritesApartment,
+  GetAllMyApartment,
+} from "@/actions";
 
 export const getAllMyApartment = createAsyncThunk(
   "apartmentState/getAllMyApartment",
@@ -18,6 +22,18 @@ export const getAllApartment = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await GetAllApartment();
+      return response;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+);
+
+export const getAllFavoritesApartment = createAsyncThunk(
+  "apartmentState/getAllFavoritesApartment",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await GetAllFavoritesApartment();
       return response;
     } catch (error) {
       return rejectWithValue(error);
@@ -105,6 +121,10 @@ export const apartmentState = createSlice({
     });
 
     builder.addCase(getAllApartment.fulfilled, (state, action) => {
+      state.allApartments = action.payload;
+    });
+
+    builder.addCase(getAllFavoritesApartment.fulfilled, (state, action) => {
       state.allApartments = action.payload;
     });
   },
