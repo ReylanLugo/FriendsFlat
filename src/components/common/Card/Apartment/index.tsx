@@ -5,6 +5,8 @@ import { Card } from "@/components/common/Card";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { toggleApartmentDetails } from "@/store/slices/global";
 import { ApartmentDetails } from "@/components/common/Modal/ApartmentDetails";
+import { SetFavorite } from "@/actions";
+import { toggleFavorites } from "@/store/slices/apartment";
 
 type props = {
   id: string;
@@ -33,6 +35,7 @@ export const Apartment: React.FC<props> = ({
     (state) => state.global.toggleApartmentDetails,
   );
   const dispatch = useAppDispatch();
+
   return (
     <>
       <Card onClick={() => dispatch(toggleApartmentDetails())}>
@@ -51,6 +54,11 @@ export const Apartment: React.FC<props> = ({
               $ {price.toLocaleString("en-US")}
             </span>
             <span
+              onClick={async (e) => {
+                e.stopPropagation();
+                await SetFavorite(id);
+                dispatch(toggleFavorites(id));
+              }}
               className={
                 "rounded-full bg-white px-1 py-1 text-sm font-bold text-slate-500"
               }
@@ -60,7 +68,7 @@ export const Apartment: React.FC<props> = ({
                 alt={"heart"}
                 height={30}
                 width={30}
-                className={"brightness-50"}
+                className={`${favorited ? "" : "brightness-0"} hover:brightness-75`}
               />
             </span>
           </div>

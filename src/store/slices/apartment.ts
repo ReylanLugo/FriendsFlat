@@ -90,6 +90,14 @@ export const apartmentState = createSlice({
       state.price = 0;
       state.description = "";
     },
+    toggleFavorites: (state, action) => {
+      const apartment = state.allApartments.find((apartment) => {
+        return apartment.id === action.payload;
+      });
+      if (apartment) {
+        apartment.favorited = !apartment.favorited;
+      }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getAllMyApartment.fulfilled, (state, action) => {
@@ -110,5 +118,6 @@ export const {
   setPrice,
   setDescription,
   resetRoomForm,
+  toggleFavorites,
 } = apartmentState.actions;
 export default apartmentState.reducer;

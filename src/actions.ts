@@ -121,6 +121,14 @@ export async function GetAllMyApartment() {
 }
 
 export async function GetAllApartment() {
+  const supabase = createClient();
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+  if (!session) {
+    throw new Error("No session found");
+  }
+
   const apartment = await prisma.apartaments.findMany({
     select: {
       id: true,
@@ -130,8 +138,16 @@ export async function GetAllApartment() {
       location: true,
       price: true,
       rooms: true,
+      favorites: true,
     },
   });
+
+  const favsApartments = await prisma.favorites.findMany({
+    where: {
+      userId: session.user.id,
+    },
+  });
+
   const res = apartment.map((flat) => {
     const sumAllRoomSizes = flat.rooms.reduce(
       (sum, room) => sum + room.size,
@@ -147,7 +163,51 @@ export async function GetAllApartment() {
       price: flat.price,
       rooms: roomsLength,
       meters: sumAllRoomSizes,
-      favorited: false,
+      favorited: favsApartments.some((fav) => fav.apartamentId === flat.id),
+    };
+  });
+  return res;
+}
+
+export async function GetAllFavoritesApartment() {
+  const supabase = createClient();
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+  if (!session) {
+    throw new Error("No session found");
+  }
+  const userId = session.user.id;
+
+  const favoriteApartments = await prisma.favorites.findMany({
+    where: {
+      userId: userId,
+    },
+    include: {
+      apartament: {
+        include: {
+          rooms: true,
+        },
+      },
+    },
+  });
+
+  const res = favoriteApartments.map((flat) => {
+    const sumAllRoomSizes = flat.apartament.rooms.reduce(
+      (sum, room) => sum + room.size,
+      0,
+    );
+    const roomsLength = flat.apartament.rooms.length;
+    return {
+      id: flat.apartament.id,
+      images: flat.apartament.images,
+      name: flat.apartament.name,
+      description: flat.apartament.description,
+      location: flat.apartament.location,
+      price: flat.apartament.price,
+      rooms: roomsLength,
+      meters: sumAllRoomSizes,
+      favorited: true,
     };
   });
   return res;
@@ -207,4 +267,35 @@ export async function GetAllRoom(apartamentId: string) {
     },
   });
   return room;
+}
+
+export async function SetFavorite(apartmentId: string) {
+  const supabase = createClient();
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+  if (!session) {
+    throw new Error("No session found");
+  }
+  const favExist = await prisma.favorites.findMany({
+    where: {
+      userId: session.user.id,
+      apartamentId: apartmentId,
+    },
+  });
+  if (favExist && favExist.length > 0) {
+    await prisma.favorites.delete({
+      where: {
+        id: favExist[0].id,
+      },
+    });
+    return false;
+  }
+  const fav = await prisma.favorites.create({
+    data: {
+      userId: session.user.id,
+      apartamentId: apartmentId,
+    },
+  });
+  return fav;
 }
