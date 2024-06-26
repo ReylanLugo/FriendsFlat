@@ -14,7 +14,14 @@ export const Room: React.FC<Props> = ({ id, name, image, size, equipment }) => {
   return (
     <>
       <Card key={id} className={"w-[240px] flex-none"}>
-        <Image src={image} alt={"apartment"} width={240} height={135.94} />
+        <div className={"relative h-[135.94px] w-[240px]"}>
+          <Image
+            src={image}
+            alt={"apartment"}
+            className={"object-cover"}
+            fill
+          />
+        </div>
         <div className={"overflow-hidden px-3 py-2"}>
           <div className={"flex items-center justify-between"}>
             <span className={"text-lg text-slate-500"}>{name}</span>

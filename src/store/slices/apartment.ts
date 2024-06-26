@@ -80,7 +80,7 @@ export const apartmentState = createSlice({
       });
       if (aparment) {
         aparment.rooms += 1;
-        aparment.meters += action.payload.meters;
+        aparment.meters = aparment.meters + parseInt(action.payload.meters);
       }
     },
     resetRoomForm: (state) => {
