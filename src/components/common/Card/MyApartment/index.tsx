@@ -2,7 +2,7 @@ import React from "react";
 import { Card } from "@/components/common/Card";
 import Image from "next/image";
 import { useDispatch } from "react-redux";
-import { toggleNewRoom } from "@/store/slices/global";
+import { setSelectApartment, toggleNewRoom } from "@/store/slices/global";
 import { useAppSelector } from "@/store/hooks";
 import { NewRoom } from "@/components/common/Modal/NewRoom";
 import { DeleteApartment } from "@/actions";
@@ -30,6 +30,15 @@ export const MyApartment: React.FC<Props> = ({
   const toggleModalState = useAppSelector(
     (state) => state.global.toggleNewRoom,
   );
+  const selectApartment = useAppSelector(
+    (state) => state.global.selectApartment,
+  );
+
+  function handleModal(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    e.stopPropagation();
+    dispatch(setSelectApartment(id));
+    dispatch(toggleNewRoom());
+  }
 
   return (
     <>
@@ -81,7 +90,7 @@ export const MyApartment: React.FC<Props> = ({
               Delete
             </button>
             <button
-              onClick={() => dispatch(toggleNewRoom())}
+              onClick={handleModal}
               className={"rounded-full bg-green-500 px-3 py-1 text-white"}
             >
               Add Room
@@ -89,7 +98,9 @@ export const MyApartment: React.FC<Props> = ({
           </div>
         </div>
       </Card>
-      {toggleModalState && <NewRoom apartmentId={id} />}
+      {toggleModalState && selectApartment === id && (
+        <NewRoom apartmentId={id} />
+      )}
     </>
   );
 };

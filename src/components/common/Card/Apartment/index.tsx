@@ -3,7 +3,10 @@ import React from "react";
 import Image from "next/image";
 import { Card } from "@/components/common/Card";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { toggleApartmentDetails } from "@/store/slices/global";
+import {
+  setSelectApartment,
+  toggleApartmentDetails,
+} from "@/store/slices/global";
 import { ApartmentDetails } from "@/components/common/Modal/ApartmentDetails";
 import { SetFavorite } from "@/actions";
 import { toggleFavorites } from "@/store/slices/apartment";
@@ -36,14 +39,22 @@ export const Apartment: React.FC<props> = ({
   const modalToggleState = useAppSelector(
     (state) => state.global.toggleApartmentDetails,
   );
+  const selectedApartment = useAppSelector(
+    (state) => state.global.selectApartment,
+  );
   const dispatch = useAppDispatch();
   const session = createClient()
     .auth.getSession()
     .then((data) => data.data.session);
 
+  function handleModal() {
+    dispatch(setSelectApartment(id));
+    dispatch(toggleApartmentDetails());
+  }
+
   return (
     <>
-      <Card onClick={() => dispatch(toggleApartmentDetails())}>
+      <Card onClick={handleModal}>
         <div className={"relative flex h-[220px]"}>
           <Image src={image} alt={"apartment"} fill />
           <div
@@ -122,7 +133,9 @@ export const Apartment: React.FC<props> = ({
           </div>
         </div>
       </Card>
-      {modalToggleState && <ApartmentDetails apartmentId={id} />}
+      {modalToggleState && selectedApartment === id && (
+        <ApartmentDetails apartmentId={id} />
+      )}
     </>
   );
 };

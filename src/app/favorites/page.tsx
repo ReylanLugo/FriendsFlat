@@ -1,4 +1,3 @@
-import { SearchByName } from "@/components/common/Forms/SearchByName/SearchByName";
 import React from "react";
 import Image from "next/image";
 import { ApartmentList } from "@/components/features/favorites/ApartmentList";
@@ -12,9 +11,9 @@ export default async function Favorites() {
   }
 
   return (
-    <main className="xs:px-5 flex min-h-screen flex-col bg-slate-50 py-12 md:px-16">
+    <main className="flex min-h-screen flex-col bg-slate-50 py-12 xs:px-5 md:px-16">
       <div className={"relative flex w-full justify-between"}>
-        <span className={"xs:w-full flex flex-col gap-4 lg:w-6/12"}>
+        <span className={"flex flex-col gap-4 xs:w-full lg:w-6/12"}>
           <h4 className={"text-5xl"}>
             Discover Your Ideal Home Among Top Picks.
           </h4>
@@ -25,16 +24,13 @@ export default async function Favorites() {
             and excellent amenities. Start your journey to a new, vibrant
             neighborhood today.
           </span>
-          <div className={"mt-3 flex items-center gap-3"}>
-            <SearchByName />
-          </div>
         </span>
         <Image
           src={"/roomMates.png"}
           alt={"room mates"}
           width={470}
           height={363.52}
-          className={"xs:hidden absolute -top-8 right-0 rounded-xl lg:block"}
+          className={"absolute -top-8 right-0 rounded-xl xs:hidden lg:block"}
         />
       </div>
       <ApartmentList />

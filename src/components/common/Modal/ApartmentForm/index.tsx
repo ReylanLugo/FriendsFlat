@@ -3,6 +3,8 @@ import { Modal } from "@/components/common/Modal";
 import Image from "next/image";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
+  addNewMyApartment,
+  resetApartmentForm,
   setDescription,
   setImage,
   setLocation,
@@ -11,6 +13,7 @@ import {
 } from "@/store/slices/apartment";
 import { CreateNewApartment } from "@/actions";
 import { toggleNewApartment } from "@/store/slices/global";
+import { showToast } from "@/store/slices/toast";
 
 export const ApartmentForm: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -29,6 +32,25 @@ export const ApartmentForm: React.FC = () => {
     formData.append("image", file);
     const result = await CreateNewApartment(formData);
     if (result.success) {
+      dispatch(
+        showToast({
+          message: "Apartment created successfully",
+          title: "Success",
+          type: "success",
+        }),
+      );
+      dispatch(resetApartmentForm());
+      dispatch(
+        addNewMyApartment({
+          id: result.data?.id as string,
+          name: result.data?.name as string,
+          location: result.data?.location as string,
+          price: result.data?.price as number,
+          images: result.data?.images as string,
+          rooms: 0,
+          meters: 0,
+        }),
+      );
       dispatch(toggleNewApartment());
     }
   };
@@ -62,7 +84,7 @@ export const ApartmentForm: React.FC = () => {
     <Modal>
       <div
         className={
-          "xs:grid xs:mx-4 rounded-xl bg-white p-4 shadow shadow-slate-300 md:w-2/3 lg:w-1/3"
+          "rounded-xl bg-white p-4 shadow shadow-slate-300 xs:mx-4 xs:grid md:w-2/3 lg:w-1/3"
         }
       >
         <div className={"flex w-full justify-between"}>

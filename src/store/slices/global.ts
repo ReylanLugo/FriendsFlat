@@ -12,6 +12,7 @@ const initialState: globalStateType = {
   maxPrice: 0,
   minSize: 0,
   maxSize: 0,
+  selectApartment: "",
 };
 
 export const globalSlice = createSlice({
@@ -48,6 +49,9 @@ export const globalSlice = createSlice({
     toggleMenu: (state) => {
       state.toggleMenu = !state.toggleMenu;
     },
+    setSelectApartment: (state, action) => {
+      state.selectApartment = action.payload;
+    },
   },
 });
 
@@ -62,5 +66,6 @@ export const {
   setMaxSize,
   toggleProfile,
   toggleMenu,
+  setSelectApartment,
 } = globalSlice.actions;
 export default globalSlice.reducer;

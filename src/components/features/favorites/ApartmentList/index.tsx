@@ -20,7 +20,7 @@ export const ApartmentList: React.FC = () => {
   return (
     <div
       className={
-        "xs:grid-cols-1 mt-10 grid h-full w-full gap-8 md:grid-cols-2 lg:grid-cols-3"
+        "mt-36 grid h-full w-full gap-8 xs:grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
       }
     >
       {!apartments || apartments.length === 0 || apartments[0].id === "" ? (

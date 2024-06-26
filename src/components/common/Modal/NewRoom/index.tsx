@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Modal } from "@/components/common/Modal";
 import { toggleNewRoom } from "@/store/slices/global";
 import Image from "next/image";
@@ -16,8 +16,13 @@ export const NewRoom: React.FC<Props> = ({ apartmentId }) => {
   const dispatch = useDispatch();
   const RoomFormState = useAppSelector((state) => state.roomForm);
 
+  useEffect(() => {
+    console.log(apartmentId);
+  }, [apartmentId]);
+
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log(apartmentId);
     const img = document.getElementById("image") as HTMLInputElement;
     const file = img.files && img.files[0];
     if (!file) return;
@@ -32,6 +37,8 @@ export const NewRoom: React.FC<Props> = ({ apartmentId }) => {
       dispatch(addNewRoom({ apartmentId, meters: RoomFormState.size }));
       dispatch(resetRoomForm());
       dispatch(toggleNewRoom());
+    } else {
+      console.log(result);
     }
   };
 
@@ -41,7 +48,7 @@ export const NewRoom: React.FC<Props> = ({ apartmentId }) => {
         <form
           onSubmit={submitHandler}
           className={
-            "xs:grid xs:mx-4 rounded-xl bg-white p-4 shadow shadow-slate-300 md:w-2/3 lg:w-1/3"
+            "rounded-xl bg-white p-4 shadow shadow-slate-300 xs:mx-4 xs:grid md:w-2/3 lg:w-1/3"
           }
         >
           <div className={"flex w-full justify-between"}>
@@ -132,7 +139,6 @@ export const NewRoom: React.FC<Props> = ({ apartmentId }) => {
 
           <div className={"mt-3 flex w-full justify-end"}>
             <button
-              formAction={AddRoom}
               className={
                 "cursor-pointer rounded-xl bg-green-500 px-4 py-2 text-sm text-white"
               }

@@ -9,6 +9,7 @@ export type globalStateType = {
   maxPrice: number;
   minSize: number;
   maxSize: number;
+  selectApartment: string;
 };
 
 export type toastStateType = {

@@ -10,7 +10,10 @@ import {
   GetAllMyApartment,
 } from "@/actions";
 import { RootState } from "@/store";
-import { apartmentStateType } from "@/utils/types/general.types";
+import {
+  apartmentStateType,
+  myApartmentType,
+} from "@/utils/types/general.types";
 
 // Async Actions
 export const getAllMyApartment = createAsyncThunk(
@@ -99,6 +102,9 @@ export const apartmentState = createSlice({
     setDescription: (state, action) => {
       state.description = action.payload;
     },
+    addNewMyApartment: (state, action: { payload: myApartmentType }) => {
+      state.myApartments = [...state.myApartments, action.payload];
+    },
     addNewRoom: (state, action) => {
       const aparment = state.myApartments.find((apartment) => {
         return apartment.id === action.payload.apartmentId;
@@ -129,6 +135,14 @@ export const apartmentState = createSlice({
           .toLowerCase()
           .includes(action.payload.toLowerCase());
       });
+    },
+
+    resetApartmentForm(state) {
+      state.name = "";
+      state.location = "";
+      state.image = "";
+      state.price = 0;
+      state.description = "";
     },
   },
   extraReducers: (builder) => {
@@ -173,5 +187,7 @@ export const {
   resetRoomForm,
   toggleFavorites,
   filterArrayOfApartmentsByName,
+  addNewMyApartment,
+  resetApartmentForm,
 } = apartmentState.actions;
 export default apartmentState.reducer;
