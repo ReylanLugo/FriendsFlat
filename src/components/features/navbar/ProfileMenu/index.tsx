@@ -6,6 +6,7 @@ export const ProfileMenu: React.FC = () => {
 
   const logout = async () => {
     await supabaseClient.auth.signOut();
+    window.location.reload();
   };
 
   return (

@@ -2,6 +2,7 @@
 
 import prisma from "@/utils/prisma";
 import { createClient } from "@/utils/supabase/server";
+import * as console from "node:console";
 
 export async function GetUserSession() {
   const supabase = createClient();
@@ -175,28 +176,36 @@ export async function GetAllApartmentWithFilters(filters: any) {
   const {
     data: { session },
   } = await supabase.auth.getSession();
-  if (!session) {
-    throw new Error("No session found");
+
+  let favsApartments = undefined;
+  if (session) {
+    favsApartments = await prisma.favorites.findMany({
+      where: {
+        userId: session.user.id,
+      },
+    });
   }
 
   // Parse filters
-  const minPrice = filters.minPrice ? parseInt(filters.minPrice) : 0;
+  const minPrice = filters.minPrice ? parseFloat(filters.minPrice) : 0.0;
   const maxPrice =
     filters.maxPrice && filters.maxPrice > 0 && filters.maxPrice > minPrice
-      ? parseInt(filters.maxPrice)
-      : 0;
+      ? parseFloat(filters.maxPrice)
+      : 0.0;
+
   const minSize = filters.minSize ? parseInt(filters.minSize) : 0;
   const maxSize =
     filters.maxSize && filters.maxSize > 0 && filters.maxSize > minSize
       ? parseInt(filters.maxSize)
-      : 0;
+      : Infinity;
 
   const priceFilter = {
     gte: minPrice,
-    ...(maxPrice > 0 && maxPrice > minPrice && { lte: maxPrice }), // Check if maxPrice is greater than minPrice
+    ...(maxPrice > minPrice && { lte: maxPrice }), // Apply lte only if maxPrice is valid
   };
-
-  const apartment = await prisma.apartaments.findMany({
+  
+  // Get apartments with price filters
+  const apartments = await prisma.apartaments.findMany({
     where: {
       price: priceFilter,
     },
@@ -211,13 +220,9 @@ export async function GetAllApartmentWithFilters(filters: any) {
       favorites: true,
     },
   });
-  const favsApartments = await prisma.favorites.findMany({
-    where: {
-      userId: session.user.id,
-    },
-  });
 
-  const res = apartment
+  // Map through the apartments and calculate additional data
+  const res = apartments
     .map((flat) => {
       const sumAllRoomSizes = flat.rooms.reduce(
         (sum, room) => sum + room.size,
@@ -233,14 +238,15 @@ export async function GetAllApartmentWithFilters(filters: any) {
         price: flat.price,
         rooms: roomsLength,
         meters: sumAllRoomSizes,
-        favorited: favsApartments.some((fav) => fav.apartamentId === flat.id),
+        favorited: favsApartments
+          ? favsApartments.some((fav) => fav.apartamentId === flat.id)
+          : false,
       };
     })
     .filter((flat) => {
-      return (
-        flat.meters >= minSize && (maxSize <= 0 || flat.meters <= maxSize) // Filter by total room size
-      );
+      return flat.meters >= minSize && flat.meters <= maxSize; // Filter by total room size
     });
+
   return res;
 }
 

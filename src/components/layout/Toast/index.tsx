@@ -15,7 +15,7 @@ export const Toast: React.FC = () => {
     return () => {
       clearTimeout(timer);
     };
-  }, []);
+  }, [toastState.visible]);
 
   return (
     <>
@@ -33,7 +33,7 @@ export const Toast: React.FC = () => {
                     src={
                       toastState.type === "success"
                         ? "/scIcon.svg"
-                        : "/errIcon.svg"
+                        : "/errIcon.png"
                     }
                     alt={""}
                     width={40}

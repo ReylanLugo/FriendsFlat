@@ -7,6 +7,8 @@ import { toggleApartmentDetails } from "@/store/slices/global";
 import { ApartmentDetails } from "@/components/common/Modal/ApartmentDetails";
 import { SetFavorite } from "@/actions";
 import { toggleFavorites } from "@/store/slices/apartment";
+import { showToast } from "@/store/slices/toast";
+import { createClient } from "@/utils/supabase/client";
 
 type props = {
   id: string;
@@ -35,6 +37,9 @@ export const Apartment: React.FC<props> = ({
     (state) => state.global.toggleApartmentDetails,
   );
   const dispatch = useAppDispatch();
+  const session = createClient()
+    .auth.getSession()
+    .then((data) => data.data.session);
 
   return (
     <>
@@ -56,8 +61,26 @@ export const Apartment: React.FC<props> = ({
             <span
               onClick={async (e) => {
                 e.stopPropagation();
+                const session = await createClient().auth.getSession();
+                if (!session.data.session) {
+                  dispatch(
+                    showToast({
+                      type: "error",
+                      message: "Please login",
+                      title: "Error",
+                    }),
+                  );
+                  return;
+                }
                 await SetFavorite(id);
                 dispatch(toggleFavorites(id));
+                dispatch(
+                  showToast({
+                    type: "success",
+                    message: "Updated favorites status",
+                    title: "Success",
+                  }),
+                );
               }}
               className={
                 "rounded-full bg-white px-1 py-1 text-sm font-bold text-slate-500"

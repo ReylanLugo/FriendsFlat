@@ -5,6 +5,7 @@ import { PriceRange } from "@/components/features/home/Filters/PriceRange";
 import { MetersRange } from "@/components/features/home/Filters/MetersRange";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { getAllApartmentWithFilter } from "@/store/slices/apartment";
+import { showToast } from "@/store/slices/toast";
 
 export const Filters: React.FC = () => {
   const globalState = useAppSelector((state) => state.global);
@@ -25,6 +26,13 @@ export const Filters: React.FC = () => {
               maxPrice: globalState.maxPrice,
               minSize: globalState.minSize,
               maxSize: globalState.maxSize,
+            }),
+          );
+          dispatch(
+            showToast({
+              message: "List of flats updated",
+              type: "success",
+              title: "Filters applied",
             }),
           );
         }}
