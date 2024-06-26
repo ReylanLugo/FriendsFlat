@@ -9,3 +9,7 @@
 *:focus-visible {
     @apply outline-none;
 }
+
+html {
+    @apply overflow-x-hidden;
+}
