@@ -40,7 +40,9 @@ export const NewRoom: React.FC<Props> = ({ apartmentId }) => {
       <Modal>
         <form
           onSubmit={submitHandler}
-          className={"w-1/3 rounded-xl bg-white p-4 shadow shadow-slate-300"}
+          className={
+            "xs:grid xs:mx-4 rounded-xl bg-white p-4 shadow shadow-slate-300 md:w-2/3 lg:w-1/3"
+          }
         >
           <div className={"flex w-full justify-between"}>
             <span className={"text-2xl font-extrabold"}>New Room</span>

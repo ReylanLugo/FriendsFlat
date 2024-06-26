@@ -16,9 +16,9 @@ export default async function MyApartments() {
   }
 
   return (
-    <main className="flex min-h-screen flex-col bg-slate-50 px-16 py-12">
+    <main className="xs:px-5 flex min-h-screen flex-col bg-slate-50 py-12 md:px-16">
       <div className={"relative flex w-full justify-between"}>
-        <span className={"flex w-6/12 flex-col gap-4"}>
+        <span className={"flex flex-col gap-4 md:w-full lg:w-6/12"}>
           <h4 className={"text-5xl"}>
             Rent out your apartments and gain benefits.
           </h4>
@@ -41,7 +41,7 @@ export default async function MyApartments() {
           alt={"benefits"}
           width={360}
           height={305}
-          className={"absolute -top-8 right-0"}
+          className={"xs:hidden absolute -top-8 right-0 lg:block"}
         />
       </div>
       <ApartmentList />
