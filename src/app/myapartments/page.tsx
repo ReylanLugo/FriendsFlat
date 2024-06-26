@@ -1,13 +1,21 @@
 import React from "react";
 import Image from "next/image";
 import { SearchByName } from "@/components/common/Forms/SearchByName/SearchByName";
-import { Apartment } from "@/components/common/Card/Apartment";
 import { createClient } from "@/utils/supabase/server";
+import { NewAppartment } from "@/components/features/myapartments/NewAppartment";
+import { ApartmentList } from "@/components/features/myapartments/ApartmentList";
+import { GetUserSession } from "@/actions";
+import { redirect } from "next/navigation";
 
 export default async function MyApartments() {
   const supabase = createClient();
-
   const { data, error } = await supabase.auth.getUser();
+
+  const session = await GetUserSession();
+  if (!session) {
+    return redirect("/login");
+  }
+
   return (
     <main className="flex min-h-screen flex-col bg-slate-50 px-16 py-12">
       <div className={"relative flex w-full justify-between"}>
@@ -27,11 +35,7 @@ export default async function MyApartments() {
               Learn More
             </button>
 
-            <button
-              className={"rounded-full bg-green-600 px-4 py-2 text-white"}
-            >
-              Add Property
-            </button>
+            <NewAppartment />
           </div>
           <div className={"mt-3 flex items-center gap-3"}>
             <SearchByName />
@@ -45,21 +49,7 @@ export default async function MyApartments() {
           className={"absolute -top-8 right-0"}
         />
       </div>
-      <div className={"mt-10 grid h-full w-full grid-cols-3 gap-8"}>
-        <Apartment
-          id={1}
-          image={"/apartment.png"}
-          name={"Orange Park PRoxi"}
-          location={"New York 834et Apt 2"}
-          description={
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit."
-          }
-          rooms={4}
-          meters={231}
-          price={1311}
-          favorited={false}
-        />
-      </div>
+      <ApartmentList />
     </main>
   );
 }

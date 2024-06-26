@@ -1,41 +1,39 @@
-"use client";
 import React from "react";
-import Image from "next/image";
 import { Card } from "@/components/common/Card";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { toggleApartmentDetails } from "@/store/slices/global";
-import { ApartmentDetails } from "@/components/common/Modal/ApartmentDetails";
+import Image from "next/image";
+import { useDispatch } from "react-redux";
+import { toggleNewRoom } from "@/store/slices/global";
+import { useAppSelector } from "@/store/hooks";
+import { NewRoom } from "@/components/common/Modal/NewRoom";
+import { DeleteApartment } from "@/actions";
 
-type props = {
+type Props = {
   id: string;
   image: string;
   name: string;
   location: string;
-  description: string;
   rooms: number;
   meters: number;
   price: number;
-  favorited: boolean;
 };
 
-export const Apartment: React.FC<props> = ({
+export const MyApartment: React.FC<Props> = ({
   id,
   image,
   name,
   location,
-  description,
   rooms,
   meters,
   price,
-  favorited,
 }) => {
-  const modalToggleState = useAppSelector(
-    (state) => state.global.toggleApartmentDetails,
+  const dispatch = useDispatch();
+  const toggleModalState = useAppSelector(
+    (state) => state.global.toggleNewRoom,
   );
-  const dispatch = useAppDispatch();
+
   return (
     <>
-      <Card onClick={() => dispatch(toggleApartmentDetails())}>
+      <Card>
         <div className={"relative flex h-[220px]"}>
           <Image src={image} alt={"apartment"} fill />
           <div
@@ -50,25 +48,11 @@ export const Apartment: React.FC<props> = ({
             >
               $ {price.toLocaleString("en-US")}
             </span>
-            <span
-              className={
-                "rounded-full bg-white px-1 py-1 text-sm font-bold text-slate-500"
-              }
-            >
-              <Image
-                src={"/heartIcon.png"}
-                alt={"heart"}
-                height={30}
-                width={30}
-                className={"brightness-50"}
-              />
-            </span>
           </div>
         </div>
         <div className={"flex flex-col px-3 py-2"}>
           <span className={"text-xl"}>{name}</span>
           <span className={"text-sm text-slate-400"}>{location}</span>
-          <p className={"text-sm"}>{description}</p>
           <div className={"my-3 flex items-center gap-6"}>
             <span className={"flex items-center gap-2"}>
               <Image
@@ -89,9 +73,23 @@ export const Apartment: React.FC<props> = ({
               {meters} mts.
             </span>
           </div>
+          <div className={"my-3 flex justify-between text-sm"}>
+            <button
+              onClick={() => DeleteApartment(id)}
+              className={"rounded-full px-3 py-1 text-red-500"}
+            >
+              Delete
+            </button>
+            <button
+              onClick={() => dispatch(toggleNewRoom())}
+              className={"rounded-full bg-green-500 px-3 py-1 text-white"}
+            >
+              Add Room
+            </button>
+          </div>
         </div>
       </Card>
-      {modalToggleState && <ApartmentDetails apartmentId={id} />}
+      {toggleModalState && <NewRoom apartmentId={id} />}
     </>
   );
 };
