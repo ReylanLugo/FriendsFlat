@@ -1,19 +1,22 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { globalStateType } from "@/utils/types/general.types";
+
+const initialState: globalStateType = {
+  toggleApartmentDetails: false,
+  toggleNewApartment: false,
+  toggleNewRoom: false,
+  toggleProfile: false,
+  toggleMenu: false,
+  searchValue: "",
+  minPrice: 0,
+  maxPrice: 0,
+  minSize: 0,
+  maxSize: 0,
+};
 
 export const globalSlice = createSlice({
   name: "global",
-  initialState: {
-    toggleApartmentDetails: false,
-    toggleNewApartment: false,
-    toggleNewRoom: false,
-    toggleProfile: false,
-    toggleMenu: false,
-    searchValue: "",
-    minPrice: 0,
-    maxPrice: 0,
-    minSize: 0,
-    maxSize: 0,
-  },
+  initialState,
   reducers: {
     toggleApartmentDetails: (state) => {
       state.toggleApartmentDetails = !state.toggleApartmentDetails;

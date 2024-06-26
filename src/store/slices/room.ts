@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { GetAllRoom } from "@/actions";
+import { roomStateType } from "@/utils/types/general.types";
 
 export const getAllRooms = createAsyncThunk(
   "roomState/getAllRooms",
@@ -13,23 +14,17 @@ export const getAllRooms = createAsyncThunk(
   },
 );
 
+const initialState: roomStateType = {
+  name: "",
+  size: 0,
+  image: "",
+  equipment: "",
+  roomList: [],
+};
+
 export const roomSlice = createSlice({
   name: "room",
-  initialState: {
-    name: "",
-    size: 0,
-    image: "",
-    equipment: "",
-    roomList: [
-      {
-        id: "",
-        name: "",
-        size: 0,
-        image: "",
-        equipment: "",
-      },
-    ],
-  },
+  initialState,
   reducers: {
     setName: (state, action) => {
       state.name = action.payload;

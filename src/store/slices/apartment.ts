@@ -10,6 +10,7 @@ import {
   GetAllMyApartment,
 } from "@/actions";
 import { RootState } from "@/store";
+import { apartmentStateType } from "@/utils/types/general.types";
 
 // Async Actions
 export const getAllMyApartment = createAsyncThunk(
@@ -68,40 +69,20 @@ export const getAllApartmentWithFilter = createAsyncThunk(
   },
 );
 
+const initialState: apartmentStateType = {
+  name: "",
+  location: "",
+  image: "",
+  price: 0,
+  description: "",
+  myApartments: [],
+  allApartments: [],
+};
+
 // Slice
 export const apartmentState = createSlice({
   name: "apartmentState",
-  initialState: {
-    name: "",
-    location: "",
-    image: "",
-    price: 0,
-    description: "",
-    myApartments: [
-      {
-        id: "",
-        images: "",
-        name: "",
-        location: "",
-        price: 0,
-        rooms: 0,
-        meters: 0,
-      },
-    ],
-    allApartments: [
-      {
-        id: "",
-        images: "",
-        name: "",
-        location: "",
-        description: "",
-        price: 0,
-        rooms: 0,
-        meters: 0,
-        favorited: false,
-      },
-    ],
-  },
+  initialState,
   reducers: {
     setName: (state, action) => {
       state.name = action.payload;

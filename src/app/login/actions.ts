@@ -35,9 +35,7 @@ export async function signup(formData: FormData) {
   const newuser = await prisma.users.create({
     data: {
       id: data.user?.id,
-      image: data.user
-        ? data.user.user_metadata.avatar_url
-        : "/defaultProfileImg.png",
+      image: "/defaultProfileImg.png",
     },
   });
   revalidatePath("/", "layout");

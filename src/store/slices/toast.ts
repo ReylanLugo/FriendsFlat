@@ -1,13 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { toastStateType } from "@/utils/types/general.types";
+
+const initialState: toastStateType = {
+  title: "",
+  message: "",
+  type: "success",
+  visible: false,
+};
 
 export const toastSlice = createSlice({
   name: "toast",
-  initialState: {
-    title: "",
-    message: "",
-    type: "success",
-    visible: false,
-  },
+  initialState,
   reducers: {
     showToast: (state, action) => {
       state.title = action.payload.title;
