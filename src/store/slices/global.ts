@@ -7,6 +7,7 @@ export const globalSlice = createSlice({
     toggleNewApartment: false,
     toggleNewRoom: false,
     toggleProfile: false,
+    toggleMenu: false,
     searchValue: "",
     minPrice: 0,
     maxPrice: 0,
@@ -41,6 +42,9 @@ export const globalSlice = createSlice({
     setMaxSize: (state, action) => {
       state.maxSize = action.payload;
     },
+    toggleMenu: (state) => {
+      state.toggleMenu = !state.toggleMenu;
+    },
   },
 });
 
@@ -54,5 +58,6 @@ export const {
   setMinSize,
   setMaxSize,
   toggleProfile,
+  toggleMenu,
 } = globalSlice.actions;
 export default globalSlice.reducer;
