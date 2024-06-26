@@ -30,7 +30,7 @@ export async function signup(formData: FormData) {
   };
   const { error, data } = await supabase.auth.signUp(dataForm);
   if (error) {
-    redirect("/error");
+    redirect("/error?message=" + error.message);
   }
   const newuser = await prisma.users.create({
     data: {

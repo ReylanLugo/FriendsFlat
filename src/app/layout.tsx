@@ -3,6 +3,7 @@ import { Bricolage_Grotesque } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import StoreProvider from "@/store/Provider";
+import { Toast } from "@/components/layout/Toast";
 
 const bricolageGrotesque = Bricolage_Grotesque({
   subsets: ["latin"],
@@ -25,6 +26,7 @@ export default function RootLayout({
         <StoreProvider>
           <Navbar />
           {children}
+          <Toast />
         </StoreProvider>
       </body>
     </html>

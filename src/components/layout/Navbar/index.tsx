@@ -2,9 +2,10 @@ import React from "react";
 import Image from "next/image";
 import { createClient } from "@/utils/supabase/server";
 import Link from "next/link";
+import { ProfileUser } from "@/components/layout/Navbar/ProfileUser";
 
 export const Navbar: React.FC = async () => {
-  const session = await createClient().auth.getUser();
+  const session = await createClient().auth.getSession();
 
   return (
     <>
@@ -15,7 +16,7 @@ export const Navbar: React.FC = async () => {
       >
         <Image src={"/logo.png"} alt={"logo"} width={64} height={64} />
         <nav className={"flex items-center gap-3 text-sm"}>
-          {session ? (
+          {session.data.session ? (
             <>
               <Link
                 href={"/"}
@@ -35,21 +36,15 @@ export const Navbar: React.FC = async () => {
               >
                 My Apartments
               </Link>
-              <Image
-                src={"/defaultProfileImg.png"}
-                alt={"profile"}
-                width={40}
-                height={40}
-                className={"cursor-pointer rounded-full"}
-              />
+              <ProfileUser />
             </>
           ) : (
-            <a
+            <Link
               href={"/login"}
               className={"text-slate-500 hover:text-slate-700"}
             >
               Login
-            </a>
+            </Link>
           )}
         </nav>
       </div>

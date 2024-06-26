@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import global from "./slices/global";
 import roomForm from "./slices/room";
 import apartmentForm from "@/store/slices/apartment";
+import toast from "@/store/slices/toast";
 
 export const makeStore = () => {
   return configureStore({
@@ -9,6 +10,7 @@ export const makeStore = () => {
       global: global,
       roomForm: roomForm,
       apartmentForm: apartmentForm,
+      toast: toast,
     },
   });
 };
