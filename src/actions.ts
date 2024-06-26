@@ -68,11 +68,16 @@ export async function DeleteApartment(apartmentId: string) {
     throw new Error("No session found");
   }
 
-  const apartment = await prisma.apartaments.delete({
-    where: {
-      id: apartmentId,
-    },
-  });
+  try {
+    const apartment = await prisma.apartaments.delete({
+      where: {
+        id: apartmentId,
+      },
+    });
+    return { success: true, data: apartment };
+  } catch (error) {
+    return { success: false, error };
+  }
 }
 
 export async function GetAllMyApartment() {
@@ -203,7 +208,7 @@ export async function GetAllApartmentWithFilters(filters: any) {
     gte: minPrice,
     ...(maxPrice > minPrice && { lte: maxPrice }), // Apply lte only if maxPrice is valid
   };
-  
+
   // Get apartments with price filters
   const apartments = await prisma.apartaments.findMany({
     where: {
