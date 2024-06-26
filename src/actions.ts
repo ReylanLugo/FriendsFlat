@@ -122,11 +122,16 @@ export async function GetAllMyApartment() {
 
 export async function GetAllApartment() {
   const supabase = createClient();
+  let favsApartments = undefined;
   const {
     data: { session },
   } = await supabase.auth.getSession();
-  if (!session) {
-    throw new Error("No session found");
+  if (session) {
+    favsApartments = await prisma.favorites.findMany({
+      where: {
+        userId: session.user.id,
+      },
+    });
   }
 
   const apartment = await prisma.apartaments.findMany({
@@ -139,12 +144,6 @@ export async function GetAllApartment() {
       price: true,
       rooms: true,
       favorites: true,
-    },
-  });
-
-  const favsApartments = await prisma.favorites.findMany({
-    where: {
-      userId: session.user.id,
     },
   });
 
@@ -163,7 +162,9 @@ export async function GetAllApartment() {
       price: flat.price,
       rooms: roomsLength,
       meters: sumAllRoomSizes,
-      favorited: favsApartments.some((fav) => fav.apartamentId === flat.id),
+      favorited: !!favsApartments
+        ? favsApartments.some((fav) => fav.apartamentId === flat.id)
+        : false,
     };
   });
   return res;
