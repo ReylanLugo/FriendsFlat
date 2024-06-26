@@ -6,6 +6,8 @@ import { setSelectApartment, toggleNewRoom } from "@/store/slices/global";
 import { useAppSelector } from "@/store/hooks";
 import { NewRoom } from "@/components/common/Modal/NewRoom";
 import { DeleteApartment } from "@/actions";
+import { deleteMyApartment } from "@/store/slices/apartment";
+import { showToast } from "@/store/slices/toast";
 
 type Props = {
   id: string;
@@ -38,6 +40,31 @@ export const MyApartment: React.FC<Props> = ({
     e.stopPropagation();
     dispatch(setSelectApartment(id));
     dispatch(toggleNewRoom());
+  }
+
+  async function handleDelete(
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ) {
+    e.stopPropagation();
+    const res = await DeleteApartment(id);
+    if (res.success) {
+      dispatch(deleteMyApartment(id));
+      dispatch(
+        showToast({
+          title: "Success",
+          message: "Apartment deleted successfully",
+          type: "success",
+        }),
+      );
+    } else {
+      dispatch(
+        showToast({
+          title: "Error",
+          message: res.error,
+          type: "error",
+        }),
+      );
+    }
   }
 
   return (
@@ -84,7 +111,7 @@ export const MyApartment: React.FC<Props> = ({
           </div>
           <div className={"my-3 flex justify-between text-sm"}>
             <button
-              onClick={() => DeleteApartment(id)}
+              onClick={handleDelete}
               className={"rounded-full px-3 py-1 text-red-500"}
             >
               Delete

@@ -105,6 +105,11 @@ export const apartmentState = createSlice({
     addNewMyApartment: (state, action: { payload: myApartmentType }) => {
       state.myApartments = [...state.myApartments, action.payload];
     },
+    deleteMyApartment: (state, action) => {
+      state.myApartments = state.myApartments.filter((apartment) => {
+        return apartment.id !== action.payload;
+      });
+    },
     addNewRoom: (state, action) => {
       const aparment = state.myApartments.find((apartment) => {
         return apartment.id === action.payload.apartmentId;
@@ -189,5 +194,6 @@ export const {
   filterArrayOfApartmentsByName,
   addNewMyApartment,
   resetApartmentForm,
+  deleteMyApartment,
 } = apartmentState.actions;
 export default apartmentState.reducer;
