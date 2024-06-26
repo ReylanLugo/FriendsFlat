@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import { Modal } from "@/components/common/Modal";
 import Image from "next/image";
-import { Card } from "@/components/common/Card";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { toggleApartmentDetails } from "@/store/slices/global";
 import { getAllRooms } from "@/store/slices/room";
+import { Room } from "@/components/common/Card/Room";
 
 type Props = {
   apartmentId: string;
@@ -74,31 +74,11 @@ export const ApartmentDetails: React.FC<Props> = ({ apartmentId }) => {
               "flex flex-nowrap items-center gap-4 overflow-x-auto rounded-xl bg-slate-200 p-4"
             }
           >
-            {roomsListState.map((room) => (
-              <Card key={room.id} className={"w-[240px] flex-none"}>
-                <Image
-                  src={room.image}
-                  alt={"apartment"}
-                  width={240}
-                  height={135.94}
-                />
-                <div className={"overflow-hidden px-3 py-2"}>
-                  <div className={"flex items-center justify-between"}>
-                    <span className={"text-lg text-slate-500"}>
-                      {room.name}
-                    </span>
-                    <span className={"text-sm"}>{room.size} mts.</span>
-                  </div>
-                  <p
-                    className={
-                      "h-[7.5em] w-[15.4em] overflow-hidden text-ellipsis text-sm"
-                    }
-                  >
-                    {room.equipment}
-                  </p>
-                </div>
-              </Card>
-            ))}
+            {roomsListState.length === 0 || roomsListState[0].id === "" ? (
+              <span>No rooms available for this apartment.</span>
+            ) : (
+              roomsListState.map((room) => <Room key={room.id} {...room} />)
+            )}
           </div>
         </div>
       </Modal>

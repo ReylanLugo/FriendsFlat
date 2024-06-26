@@ -15,18 +15,22 @@ export const ApartmentList: React.FC = () => {
 
   return (
     <div className={"mt-10 grid h-full w-full grid-cols-3 gap-8"}>
-      {myApartments?.map((apartment) => (
-        <MyApartment
-          key={apartment.id}
-          id={apartment.id}
-          image={apartment.images}
-          name={apartment.name}
-          location={apartment.location}
-          rooms={apartment.rooms}
-          meters={apartment.meters}
-          price={apartment.price}
-        />
-      ))}
+      {myApartments.length === 0 || myApartments[0].id === "" ? (
+        <span>You don`t have any apartment.</span>
+      ) : (
+        myApartments?.map((apartment) => (
+          <MyApartment
+            key={apartment.id}
+            id={apartment.id}
+            image={apartment.images}
+            name={apartment.name}
+            location={apartment.location}
+            rooms={apartment.rooms}
+            meters={apartment.meters}
+            price={apartment.price}
+          />
+        ))
+      )}
     </div>
   );
 };
