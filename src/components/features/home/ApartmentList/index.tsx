@@ -1,13 +1,15 @@
 "use client";
 import React, { useEffect } from "react";
 import { Apartment } from "@/components/common/Card/Apartment";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { getAllApartment } from "@/store/slices/apartment";
+import { useAppDispatch } from "@/store/hooks";
+import {
+  apartmentListSelector,
+  getAllApartment,
+} from "@/store/slices/apartment";
+import { useSelector } from "react-redux";
 
 export const ApartmentList: React.FC = () => {
-  const apartments = useAppSelector(
-    (state) => state.apartmentForm.allApartments,
-  );
+  const apartments = useSelector(apartmentListSelector);
   const dispatch = useAppDispatch();
 
   useEffect(() => {

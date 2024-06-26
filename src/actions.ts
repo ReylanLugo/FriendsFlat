@@ -169,6 +169,80 @@ export async function GetAllApartment() {
   return res;
 }
 
+export async function GetAllApartmentWithFilters(filters: any) {
+  const supabase = createClient();
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+  if (!session) {
+    throw new Error("No session found");
+  }
+
+  // Parse filters
+  const minPrice = filters.minPrice ? parseInt(filters.minPrice) : 0;
+  const maxPrice =
+    filters.maxPrice && filters.maxPrice > 0 && filters.maxPrice > minPrice
+      ? parseInt(filters.maxPrice)
+      : 0;
+  const minSize = filters.minSize ? parseInt(filters.minSize) : 0;
+  const maxSize =
+    filters.maxSize && filters.maxSize > 0 && filters.maxSize > minSize
+      ? parseInt(filters.maxSize)
+      : 0;
+
+  const priceFilter = {
+    gte: minPrice,
+    ...(maxPrice > 0 && maxPrice > minPrice && { lte: maxPrice }), // Check if maxPrice is greater than minPrice
+  };
+
+  const apartment = await prisma.apartaments.findMany({
+    where: {
+      price: priceFilter,
+    },
+    select: {
+      id: true,
+      images: true,
+      name: true,
+      description: true,
+      location: true,
+      price: true,
+      rooms: true,
+      favorites: true,
+    },
+  });
+  const favsApartments = await prisma.favorites.findMany({
+    where: {
+      userId: session.user.id,
+    },
+  });
+
+  const res = apartment
+    .map((flat) => {
+      const sumAllRoomSizes = flat.rooms.reduce(
+        (sum, room) => sum + room.size,
+        0,
+      );
+      const roomsLength = flat.rooms.length;
+      return {
+        id: flat.id,
+        images: flat.images,
+        name: flat.name,
+        description: flat.description,
+        location: flat.location,
+        price: flat.price,
+        rooms: roomsLength,
+        meters: sumAllRoomSizes,
+        favorited: favsApartments.some((fav) => fav.apartamentId === flat.id),
+      };
+    })
+    .filter((flat) => {
+      return (
+        flat.meters >= minSize && (maxSize <= 0 || flat.meters <= maxSize) // Filter by total room size
+      );
+    });
+  return res;
+}
+
 export async function GetAllFavoritesApartment() {
   const supabase = createClient();
   const {

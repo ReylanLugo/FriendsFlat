@@ -2,8 +2,15 @@ import { SearchByName } from "@/components/common/Forms/SearchByName/SearchByNam
 import React from "react";
 import Image from "next/image";
 import { ApartmentList } from "@/components/features/favorites/ApartmentList";
+import { GetUserSession } from "@/actions";
+import { redirect } from "next/navigation";
 
-export default function Favorites() {
+export default async function Favorites() {
+  const session = await GetUserSession();
+  if (!session) {
+    return redirect("/login");
+  }
+
   return (
     <main className="flex min-h-screen flex-col bg-slate-50 px-16 py-12">
       <div className={"relative flex w-full justify-between"}>

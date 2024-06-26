@@ -1,9 +1,14 @@
+"use client";
 import React from "react";
 import Image from "next/image";
 import { PriceRange } from "@/components/features/home/Filters/PriceRange";
 import { MetersRange } from "@/components/features/home/Filters/MetersRange";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { getAllApartmentWithFilter } from "@/store/slices/apartment";
 
 export const Filters: React.FC = () => {
+  const globalState = useAppSelector((state) => state.global);
+  const dispatch = useAppDispatch();
   return (
     <>
       <div className={"flex flex-col gap-2"}>
@@ -13,6 +18,16 @@ export const Filters: React.FC = () => {
         <MetersRange />
       </div>
       <button
+        onClick={(e) => {
+          dispatch(
+            getAllApartmentWithFilter({
+              minPrice: globalState.minPrice,
+              maxPrice: globalState.maxPrice,
+              minSize: globalState.minSize,
+              maxSize: globalState.maxSize,
+            }),
+          );
+        }}
         className={
           "flex h-10 items-center gap-2 self-end rounded-full bg-slate-800 px-4 py-2 text-white"
         }

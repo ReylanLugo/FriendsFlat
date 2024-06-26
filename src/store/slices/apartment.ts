@@ -1,10 +1,17 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import {
+  createAsyncThunk,
+  createSelector,
+  createSlice,
+} from "@reduxjs/toolkit";
 import {
   GetAllApartment,
+  GetAllApartmentWithFilters,
   GetAllFavoritesApartment,
   GetAllMyApartment,
 } from "@/actions";
+import { RootState } from "@/store";
 
+// Async Actions
 export const getAllMyApartment = createAsyncThunk(
   "apartmentState/getAllMyApartment",
   async (_, { rejectWithValue }) => {
@@ -41,6 +48,27 @@ export const getAllFavoritesApartment = createAsyncThunk(
   },
 );
 
+export const getAllApartmentWithFilter = createAsyncThunk(
+  "apartmentState/getAllApartmentWithFilter",
+  async (
+    arg: {
+      minPrice: number;
+      maxPrice: number;
+      minSize: number;
+      maxSize: number;
+    },
+    { rejectWithValue },
+  ) => {
+    try {
+      const response = await GetAllApartmentWithFilters(arg);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+);
+
+// Slice
 export const apartmentState = createSlice({
   name: "apartmentState",
   initialState: {
@@ -114,6 +142,13 @@ export const apartmentState = createSlice({
         apartment.favorited = !apartment.favorited;
       }
     },
+    filterArrayOfApartmentsByName: (state, action) => {
+      state.allApartments = state.allApartments.filter((apartment) => {
+        return apartment.name
+          .toLowerCase()
+          .includes(action.payload.toLowerCase());
+      });
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getAllMyApartment.fulfilled, (state, action) => {
@@ -127,8 +162,25 @@ export const apartmentState = createSlice({
     builder.addCase(getAllFavoritesApartment.fulfilled, (state, action) => {
       state.allApartments = action.payload;
     });
+
+    builder.addCase(getAllApartmentWithFilter.fulfilled, (state, action) => {
+      state.allApartments = action.payload;
+    });
   },
 });
+// Selectors
+const selectSearchFilter = (state: RootState) => state.global.searchValue;
+const allApartmentSelector = (state: RootState) =>
+  state.apartmentForm.allApartments; //selector
+export const apartmentListSelector = createSelector(
+  [selectSearchFilter, allApartmentSelector],
+  (searchValue, allApartments) => {
+    if (!searchValue) return allApartments;
+    return allApartments.filter((apartment) => {
+      return apartment.name.toLowerCase().includes(searchValue.toLowerCase());
+    });
+  },
+);
 
 export const {
   setName,
@@ -139,5 +191,6 @@ export const {
   setDescription,
   resetRoomForm,
   toggleFavorites,
+  filterArrayOfApartmentsByName,
 } = apartmentState.actions;
 export default apartmentState.reducer;

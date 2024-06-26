@@ -1,6 +1,5 @@
 import React from "react";
 import Image from "next/image";
-import { SearchByName } from "@/components/common/Forms/SearchByName/SearchByName";
 import { createClient } from "@/utils/supabase/server";
 import { NewAppartment } from "@/components/features/myapartments/NewAppartment";
 import { ApartmentList } from "@/components/features/myapartments/ApartmentList";
@@ -22,7 +21,6 @@ export default async function MyApartments() {
         <span className={"flex w-6/12 flex-col gap-4"}>
           <h4 className={"text-5xl"}>
             Rent out your apartments and gain benefits.
-            {data.user?.id}
           </h4>
           <span>
             Rent out your apartments and start earning extra income. Benefit
@@ -36,9 +34,6 @@ export default async function MyApartments() {
             </button>
 
             <NewAppartment />
-          </div>
-          <div className={"mt-3 flex items-center gap-3"}>
-            <SearchByName />
           </div>
         </span>
         <Image
